@@ -17,11 +17,6 @@ export default {
   }),
 
   computed: {
-    // strikers() {
-    //   return this.players.filter(
-    //     (player) => player.position.indexOf("attack") > -1
-    //   );
-    // },
     playerStatistics() {
       const positions = ["midfield", "wing", "attack", "defense"];
       const statistics = {
