@@ -1,5 +1,9 @@
 <script >
+import PlayerStats from "./components/PlayerStats.vue";
 export default {
+  components: {
+    PlayerStats
+  },
   data: () => ({
     newPlayer: {
       name: "",
@@ -16,34 +20,6 @@ export default {
     favoriteList: [],
   }),
 
-  computed: {
-    playerStatistics() {
-      const positions = ["midfield", "wing", "attack", "defense"];
-      const statistics = {
-        midfield: 0,
-        attack: 0,
-        wing: 0,
-        defense: 0,
-      };
-
-      this.players.forEach((player) => {
-        positions.forEach((position) => {
-          if (player.position.indexOf(position) > -1) {
-            statistics[position] += 1;
-          }
-        });
-      });
-
-      return statistics;
-      // alternative using reduce
-      //const result = players.reduce((groupedPlayer, player)=>{
-      // const position = player.position;
-      // if(groupedPlayer[position] == null) {
-      //   groupedPlayer[position] = []
-      // }
-    },
-  },
-
   methods: {
     favoritePlayer(player) {
       this.favoriteList.push(player);
@@ -59,12 +35,8 @@ export default {
 </script>
 
 <template>
-  <h2>Players Stats</h2>
-  <!-- <p>{{playerStatistics}}</p> -->
-  <ul>
-    <li v-for="(player, key) in playerStatistics" :key="`player-${key}`">{{ key }}: {{ player }}</li>
-  </ul>
-  <hr />
+  <PlayerStats :players="players"/>
+
   <p v-if="players.length === 0">There are no players</p>
   <ul v-else-if="players.length % 2 === 0">
     <li v-for="(player, index) in players" :key="`player-${index}`">
@@ -81,12 +53,13 @@ export default {
   <hr />
   <h2>New Player</h2>
   <pre>
-              {{ newPlayer }}
-            </pre>
+                {{ newPlayer }}
+              </pre>
   <label for="character-name">Name</label>
   <input type="text" v-model="newPlayer.name" @keyup.enter="addNewPlayer" />
   <p>
-    <span v-for="(player, index) in players" :key="`player-${index}`">{{ player.name }}{{ index === players.length - 1 ? '' : ', ' }}</span>
+    <span v-for="(player, index) in players" :key="`player-${index}`">{{ player.name }}{{ index === players.length - 1 ?
+      '' : ', ' }}</span>
   </p>
 </template>
 
