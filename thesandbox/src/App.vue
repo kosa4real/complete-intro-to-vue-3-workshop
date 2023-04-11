@@ -1,10 +1,14 @@
 <script>
+import BaseButton from "./components/BaseButton.vue";
 import BaseCounter from "./components/BaseCounter.vue";
+import BaseLayout from "./components/BaseLayout.vue";
 import UserCard from "./components/UserCard.vue";
 export default {
   components: {
+    BaseButton,
     BaseCounter,
-    UserCard
+    BaseLayout,
+    UserCard,
   },
   data() {
     return {
@@ -64,6 +68,24 @@ export default {
 </script>
 
 <template>
+  <BaseLayout>
+    <template v-slot:sidebar>
+      <h1>Slot Header</h1>
+      <hr>
+    </template>
+    <template v-slot:main>
+      <div style="display: flex; justify-content:space-around">
+        <div>One</div>
+        <div>Two</div>
+        <div>Three</div>
+      </div>
+    </template>
+    <template v-slot:footer>
+      <p style="text-align:center">&copy;2023</p>
+    </template>
+
+  </BaseLayout>
+  <BaseButton left="true"></BaseButton>
   <UserCard :userData="refinedData" @change-name="changeName" />
   <BaseCounter />
   <hr />
