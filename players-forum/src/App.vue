@@ -1,8 +1,10 @@
 <script >
 import PlayerStats from "./components/PlayerStats.vue";
+import PlayerCard from "./components/PlayerCard.vue";
 export default {
   components: {
-    PlayerStats
+    PlayerStats,
+    PlayerCard
   },
   data: () => ({
     newPlayer: {
@@ -21,15 +23,16 @@ export default {
   }),
 
   methods: {
-    favoritePlayer(player) {
-      this.favoriteList.push(player);
-    },
+
     addNewPlayer() {
       this.players.push(this.newPlayer);
       this.newPlayer = {
         name: "",
       };
     },
+    addFavoritePlayer(payload){
+      this.favoriteList.push(payload)
+    }
   },
 }
 </script>
@@ -40,8 +43,7 @@ export default {
   <p v-if="players.length === 0">There are no players</p>
   <ul v-else-if="players.length % 2 === 0">
     <li v-for="(player, index) in players" :key="`player-${index}`">
-      <p>{{ player.name }}</p>
-      <button @click="favoritePlayer(player)">::star</button>
+      <PlayerCard :player="player" @favorite="addFavoritePlayer"/>
     </li>
   </ul>
   <p v-else>There are odd players</p>
