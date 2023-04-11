@@ -1,8 +1,10 @@
 <script >
+import BaseLayout from "./components/BaseLayout.vue";
 import PlayerStats from "./components/PlayerStats.vue";
 import PlayerCard from "./components/PlayerCard.vue";
 export default {
   components: {
+    BaseLayout,
     PlayerStats,
     PlayerCard
   },
@@ -30,7 +32,7 @@ export default {
         name: "",
       };
     },
-    addFavoritePlayer(payload){
+    addFavoritePlayer(payload) {
       this.favoriteList.push(payload)
     }
   },
@@ -38,12 +40,27 @@ export default {
 </script>
 
 <template>
-  <PlayerStats :players="players"/>
+  <BaseLayout>
+    <template v-slot:one>
+      <h2>New Player</h2>
+      <pre>
+        {{ newPlayer }}
+      </pre>
+      <label for="character-name">Name</label>
+      <input type="text" v-model="newPlayer.name" @keyup.enter="addNewPlayer" />
+      <p>
+        <span v-for="(player, index) in players" :key="`player-${index}`">{{ player.name }}{{ index === players.length - 1
+          ?
+          '' : ', ' }}</span>
+      </p>
+    </template>
+  </BaseLayout>
+  <PlayerStats :players="players" />
 
   <p v-if="players.length === 0">There are no players</p>
   <ul v-else-if="players.length % 2 === 0">
     <li v-for="(player, index) in players" :key="`player-${index}`">
-      <PlayerCard :player="player" @favorite="addFavoritePlayer"/>
+      <PlayerCard :player="player" @favorite="addFavoritePlayer" />
     </li>
   </ul>
   <p v-else>There are odd players</p>
@@ -53,16 +70,6 @@ export default {
   </ul>
   <p v-else>No favorite player yet</p>
   <hr />
-  <h2>New Player</h2>
-  <pre>
-                {{ newPlayer }}
-              </pre>
-  <label for="character-name">Name</label>
-  <input type="text" v-model="newPlayer.name" @keyup.enter="addNewPlayer" />
-  <p>
-    <span v-for="(player, index) in players" :key="`player-${index}`">{{ player.name }}{{ index === players.length - 1 ?
-      '' : ', ' }}</span>
-  </p>
 </template>
 
 <style scoped></style>
